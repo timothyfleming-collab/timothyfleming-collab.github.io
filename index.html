@@ -191,6 +191,33 @@
             font-size: 14px;
             padding: 20px 0;
         }
+
+        .joke-card {
+            background: rgba(203, 166, 247, 0.08);
+            border: 1px solid rgba(203, 166, 247, 0.2);
+            border-radius: 16px;
+            padding: 20px 24px;
+            width: 100%;
+            max-width: 520px;
+            margin-top: 16px;
+            text-align: center;
+        }
+
+        .joke-text {
+            font-size: 14px;
+            line-height: 1.6;
+            opacity: 0.85;
+            margin-bottom: 12px;
+            min-height: 40px;
+        }
+
+        .btn-joke {
+            background: rgba(203, 166, 247, 0.15);
+            color: #cba6f7;
+            border: 1px solid rgba(203, 166, 247, 0.3);
+            font-size: 13px;
+            padding: 8px 16px;
+        }
     </style>
 </head>
 <body>
@@ -215,6 +242,11 @@
         <ul id="taskList"></ul>
 
         <button class="btn btn-clear" onclick="clearAll()">Clear All Tasks</button>
+    </div>
+
+    <div class="joke-card">
+        <p class="joke-text" id="jokeText">Click the button for a joke!</p>
+        <button class="btn btn-joke" onclick="getJoke()">Tell me a joke 😄</button>
     </div>
 
     <script>
@@ -305,6 +337,16 @@
                 localStorage.removeItem("tasks");
                 updateCount();
             }
+        }
+
+        function getJoke() {
+            const el = document.getElementById("jokeText");
+            el.textContent = "Loading...";
+            fetch("https://official-joke-api.appspot.com/random_joke")
+                .then(response => response.json())
+                .then(data => {
+                    el.textContent = data.setup + " ... " + data.punchline;
+                });
         }
 
         loadTasks();
